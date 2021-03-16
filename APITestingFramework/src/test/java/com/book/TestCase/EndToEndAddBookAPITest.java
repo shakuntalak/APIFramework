@@ -3,22 +3,21 @@ package com.book.TestCase;
 
 import com.book.ResponseModel.GetBookResponse;
 import com.book.ResponseModel.AddBookResponse;
-import com.book.ResponseModel.GetBookResponseError;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class EndToEndAddBookAPITest extends AddBookResponse{
+public class EndToEndAddBookAPITest extends APIBookBase{
 
     @Test
     public void verifyAddAndGetBookAPITest()
     {
         String ExpectedAuthor="John Martin";
         APIBookBase addBook=new APIBookBase();
-        AddBookResponse book = addBook.addBook();
+        AddBookResponse book = addBook.addBook(ExpectedAuthor);
         APIGetBook getBook=new APIGetBook();
-        GetBookResponse getBookResponse=getBook.getBook(book);
+        GetBookResponse getBookResponse =getBook.getBook(book);
         Assert.assertEquals(getBookResponse.getAuthorName(),ExpectedAuthor,"Test failed ,Author name is not correct");
     }
 
@@ -26,7 +25,7 @@ public class EndToEndAddBookAPITest extends AddBookResponse{
     public void verifyAddGetDeleteAddBookTest() {
         String ExpectedAuthor = "John Martin";
         APIBookBase baseBook = new APIBookBase();
-        AddBookResponse book = baseBook.addBook();
+        AddBookResponse book = baseBook.addBook(ExpectedAuthor);
 
         APIGetBook getBook = new APIGetBook();
         GetBookResponse getBookResponse = getBook.getBook(book);
@@ -38,7 +37,7 @@ public class EndToEndAddBookAPITest extends AddBookResponse{
         Assert.assertEquals(actualDeleteMessage, expectedDeleteMessage);
 
 
-        AddBookResponse book1 = baseBook.addBook();
+        AddBookResponse book1 = baseBook.addBook(ExpectedAuthor);
         Assert.assertEquals(book1.getMsg(), "successfully added");
 
 

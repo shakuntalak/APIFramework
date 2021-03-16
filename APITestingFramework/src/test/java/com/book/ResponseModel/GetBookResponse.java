@@ -2,11 +2,14 @@ package com.book.ResponseModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.swing.*;
+
 public class GetBookResponse {
     String book_name;
     String isbn;
     String aisle;
     String author_name;
+
 
 
     @JsonProperty("book_name")

@@ -7,6 +7,8 @@ import com.book.ResponseModel.AddDuplicateBookResponse;
 import com.book.ResponseModel.DeleteBookResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 
 import java.util.Random;
 
@@ -14,14 +16,19 @@ import static io.restassured.RestAssured.given;
 
 public class APIBookBase {
 
-    public AddBookResponse addBook()
-    {
-        String aisleGenerate,bookName="RestAPI Testing Test123",isbnGenerate;
-        String authorName="John Martin";
-        Random random=new Random();
+
+    @BeforeTest
+    public void setURL(){
+        RestAssured.baseURI = "http://216.10.245.166";
+    }
+
+    public AddBookResponse addBook(String authorName) {
+        String aisleGenerate, isbnGenerate;
+        Random random = new Random();
         aisleGenerate = String.format("%04d", random.nextInt(10000));
         isbnGenerate = String.format("%04d", random.nextInt(10000));
-        RestAssured.baseURI = "http://216.10.245.166";
+        String bookName = "RestAPI Testing Test" + String.format("%02d", random.nextInt(10000));
+        //RestAssured.baseURI = "http://216.10.245.166";
         AddBookRequest request = new AddBookRequest();
         request.setBook_name(bookName);
         request.setAuthor_name(authorName);
@@ -36,16 +43,18 @@ public class APIBookBase {
                 statusCode(200).
                 extract().response();
 
+        AddBookResponse book1;
+        book1 = response.as(AddBookResponse.class);
+        return book1;
 
-        AddBookResponse book = response.as(AddBookResponse.class);
-        return book;
+
+
     }
+
 
     public AddDuplicateBookResponse addBookDuplicate(String bookName, String isbn, String aisle, String authorName)
     {
 
-        RestAssured.baseURI = "http://216.10.245.166";
-        //String bookName="Testing-REST API Automation",isbn="56789",aisle="234665",authorName="Shakuntala";
         AddBookRequest request = new AddBookRequest();
         request.setBook_name(bookName);
         request.setAuthor_name(authorName);
@@ -67,7 +76,6 @@ public class APIBookBase {
 
     public String deleteBook(String id)
     {
-        RestAssured.baseURI = "http://216.10.245.166";
 
         DeleteBookRequest request=new DeleteBookRequest();
         request.setDeleteBookID(id);

@@ -7,13 +7,13 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class AddBookTest {
+public class AddBookTest extends APIBookBase {
 
     @Test
     public void verifyAddBook() {
-        String ExpectedAuthor = "John Martin";
+        String ExpectedAuthor = "BOXOMAdd3Test";
         APIBookBase addBook = new APIBookBase();
-        AddBookResponse book = addBook.addBook();
+        AddBookResponse book=addBook.addBook(ExpectedAuthor);
         System.out.println(book.getID());
         APIGetBook getBook = new APIGetBook();
         GetBookResponse getBookResponse = getBook.getBook(book);

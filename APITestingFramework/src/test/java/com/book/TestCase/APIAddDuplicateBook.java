@@ -8,18 +8,18 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class APIAddDuplicateBook {
+public class APIAddDuplicateBook extends APIBookBase{
 
     @Test
     public void verifyAddDuplicateBook(){
         String bookName,isbn,aisle,authorName;
         String ExpectedAuthor="Rest API Test";
         APIBookBase addBook=new APIBookBase();
-        AddBookResponse book = addBook.addBook();
+        AddBookResponse book = addBook.addBook(ExpectedAuthor);
 
         APIGetBook getBook=new APIGetBook();
-        GetBookResponse getBookResponse=getBook.getBook(book);
-        bookName=getBookResponse.getBook_name();
+        GetBookResponse getBookResponse =getBook.getBook(book);
+        bookName= getBookResponse.getBook_name();
         isbn= getBookResponse.getIsbn();
         aisle= getBookResponse.getAisle();
         authorName= getBookResponse.getAuthorName();
